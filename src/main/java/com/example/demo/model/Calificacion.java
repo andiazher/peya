@@ -17,6 +17,7 @@ public class Calificacion {
 	private String comentario;
 	private int calificacion;
 	private Date fecha;
+	private boolean eliminado;
 	
 	public Calificacion() {
 	}
@@ -83,6 +84,14 @@ public class Calificacion {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public boolean isEliminado() {
+		return eliminado;
+	}
+
+	public void setEliminado(boolean eliminado) {
+		this.eliminado = eliminado;
 	}
 
 	@Override
