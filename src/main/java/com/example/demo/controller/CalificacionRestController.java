@@ -25,18 +25,6 @@ public class CalificacionRestController {
 		return this.calificacionRepository.findAll();
 	}
 	
-	@PostMapping("/calificaciones")
-	Calificacion newCalificacion(@RequestBody Calificacion newCalificacion) {
-		return calificacionRepository.save(newCalificacion);
-	}
-	
-	@GetMapping("/calificaciones/{id}")
-	Calificacion byId(@PathVariable Long id) {
-
-		return calificacionRepository.findById(id)
-			.orElseThrow(() -> new CalificacioneNotFoundException(id));
-	}
-	
 	@GetMapping("/calificaciones/compra/{id}")
 	Collection<Calificacion> byCompra(@PathVariable Long id) {
 
@@ -47,6 +35,24 @@ public class CalificacionRestController {
 	Collection<Calificacion> byCompra2(@RequestParam("id") Long id) {
 
 		return calificacionRepository.findBycompra(id);
+	}
+	
+	@GetMapping("/calificaciones/usuario")
+	Collection<Calificacion> byUsuario(@RequestParam("id") Long id) {
+
+		return calificacionRepository.findByusuario(id);
+	}
+	
+	@PostMapping("/calificaciones")
+	Calificacion newCalificacion(@RequestBody Calificacion newCalificacion) {
+		return calificacionRepository.save(newCalificacion);
+	}
+	
+	@GetMapping("/calificaciones/{id}")
+	Calificacion byId(@PathVariable Long id) {
+
+		return calificacionRepository.findById(id)
+			.orElseThrow(() -> new CalificacioneNotFoundException(id));
 	}
 	
 	@GetMapping("/calificaciones/tienda")
@@ -67,6 +73,7 @@ public class CalificacionRestController {
 				calificacion.setCompra(newCalificacion.getCompra());
 				calificacion.setComentario(newCalificacion.getComentario());
 				calificacion.setCalificacion(newCalificacion.getCalificacion());
+				calificacion.setFecha(newCalificacion.getFecha());
 				return calificacionRepository.save(calificacion);
 			})
 			.orElseGet(() -> {
@@ -76,8 +83,13 @@ public class CalificacionRestController {
 	}
 	
 	@DeleteMapping("/calificaciones/{id}")
-	void deleteEmployee(@PathVariable Long id) {
-		calificacionRepository.deleteById(id);
+	Calificacion deleteEmployee(@PathVariable Long id) {
+		
+		return calificacionRepository.findById(id)
+				.map(calificacion -> {
+					calificacion.setEliminado(true);
+					return calificacionRepository.save(calificacion);
+				}).orElseThrow(() -> new CalificacioneNotFoundException(id));
 	}
 	
 	@Autowired CalificacionRepository calificacionRepository;
