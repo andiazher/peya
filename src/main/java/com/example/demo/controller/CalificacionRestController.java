@@ -38,9 +38,11 @@ public class CalificacionRestController {
 	}
 	
 	@GetMapping("/calificaciones/usuario")
-	Collection<Calificacion> byUsuario(@RequestParam("id") Long id) {
+	Collection<Calificacion> byUsuario(@RequestParam("id") Long id, 
+			@RequestParam("fechai") Date fechai,
+			@RequestParam("fechaf") Date fechaf) {
 
-		return calificacionRepository.findByusuario(id);
+		return calificacionRepository.findByusuario(id, fechai, fechaf);
 	}
 	
 	@PostMapping("/calificaciones")
