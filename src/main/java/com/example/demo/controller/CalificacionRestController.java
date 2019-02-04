@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.sql.Date;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.CalificacioneNotFoundException;
@@ -29,10 +31,30 @@ public class CalificacionRestController {
 	}
 	
 	@GetMapping("/calificaciones/{id}")
-	Calificacion one(@PathVariable Long id) {
+	Calificacion byId(@PathVariable Long id) {
 
 		return calificacionRepository.findById(id)
 			.orElseThrow(() -> new CalificacioneNotFoundException(id));
+	}
+	
+	@GetMapping("/calificaciones/compra/{id}")
+	Collection<Calificacion> byCompra(@PathVariable Long id) {
+
+		return calificacionRepository.findBycompra(id);
+	}
+	
+	@GetMapping("/calificaciones/compra")
+	Collection<Calificacion> byCompra2(@RequestParam("id") Long id) {
+
+		return calificacionRepository.findBycompra(id);
+	}
+	
+	@GetMapping("/calificaciones/tienda")
+	Collection<Calificacion> byTienda(@RequestParam("id") Long id, 
+			@RequestParam("fechai") Date fechai,
+			@RequestParam("fechaf") Date fechaf) {
+
+		return calificacionRepository.findByTiendaAndFecha(id, fechai, fechaf);
 	}
 	
 	@PutMapping("/calificaciones/{id}")

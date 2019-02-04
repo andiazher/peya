@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,7 @@ public class Calificacion {
 	private Long compra;
 	private String comentario;
 	private int calificacion;
+	private Date fecha;
 	
 	public Calificacion() {
 	}
@@ -72,6 +75,14 @@ public class Calificacion {
 
 	public void setCalificacion(int calificacion) {
 		this.calificacion = calificacion;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	@Override
